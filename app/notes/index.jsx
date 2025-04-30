@@ -31,13 +31,16 @@ const NoteScreen = () => {
    };
 
    // Add New Note
-   const addNote = () => {
+   const addNote = async () => {
     if(newNote.trim() === "") return; // This helps prevent empty notes
     
-    setNotes((prevNotes) => [
-        ...prevNotes,
-        {id: Date.now.toString(), text: newNote},
-    ]);
+    const response = await noteService.addNote(newNote);
+
+    if (response.error) {
+      Alert.alert('Error', response.error);
+    } else {
+      setNotes([...notes, response.data]);
+    }
 
     setNewNote(""); // Reset to make it back an empty string
     setModalVisible(false); // Want to close our Modal after with save the input
