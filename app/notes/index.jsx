@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { View, Text, StyleSheet,TouchableOpacity, Alert} from "react-native";
+import { View, Text, StyleSheet,TouchableOpacity, Alert, ActivityIndicator} from "react-native";
 import NoteList from "@/components/NoteList";
 import AddNoteModal from "@/components/AddNoteModal";
 import noteService from "@/services/noteService";
@@ -46,10 +46,39 @@ const NoteScreen = () => {
     setModalVisible(false); // Want to close our Modal after with save the input
    }
 
+   // Delete Note
+   const deleteNote = async () => {
+    Alert.alert('Delete Note', 'Are you sure you want to delete this note?', [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: async () => {
+          const response = await noteService.deleteNote(id);
+          if (response.error) {
+            Alert.alert('Error', response.error);
+          } else {
+            setNotes(notes.filter((note) => note.$id !== id));
+          }
+        },
+      },
+    ]);
+   }
+
     return(
         <View style={styles.container}>
           {/* Note List */}
-          <NoteList notes={notes} />
+          {loading ? (
+        <ActivityIndicator size='large' color='#007bff' />
+      ) : (
+        <>
+          {error && <Text style={styles.errorText}>{error}</Text>}
+          <NoteList notes={notes} onDelete={deleteNote} />
+        </>
+      )}
 
           <TouchableOpacity style={styles.addButton} onPress={ () => setModalVisible(true)}>
             <Text style={styles.addButtonText}>+ Add Note</Text>
@@ -86,6 +115,12 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 18,
         fontWeight: 'bold',
+      },
+      errorText: {
+        color: 'red',
+        textAlign: 'center',
+        marginBottom: 10,
+        fontSize: 16,
       },
 })
 
