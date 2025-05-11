@@ -1,7 +1,7 @@
 import { View, FlatList } from 'react-native';
 import NoteItem from './NoteItem';
 
-const NoteList = ({ notes, onDelete }) => {
+const NoteList = ({ notes, onDelete, onEdit }) => {
   return (
     <View>
       <FlatList
@@ -9,7 +9,7 @@ const NoteList = ({ notes, onDelete }) => {
         keyExtractor={(item) => item.$id}
         renderItem={({ item }) => (
           <NoteItem note={item} 
-          onDelete={onDelete}
+          onDelete={onDelete} onEdit={onEdit} 
           />
         )}
       />

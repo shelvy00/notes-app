@@ -1,13 +1,54 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { useState, useRef } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, TextInput } from "react-native";
 
-const NoteItem = ({ note, onDelete }) => {
+const NoteItem = ({ note, onDelete,onEdit }) => {
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedText, setEditedText] = useState(note.text);
+    const inputRef = useRef(null);
+
+    const handleSave = () => {
+     if (editedText.trim() === '') return;
+     onEdit(note.$id, editedText);
+     setIsEditing(false);
+  };
+
     return (
     <View style={styles.noteItem}>
+      {isEditing ? (
+        <TextInput
+          ref={inputRef}
+          style={styles.input}
+          value={editedText}
+          onChangeText={setEditedText}
+          autoFocus
+          onSubmitEditing={handleSave}
+          returnKeyType='done'
+        />
+      ) : (
         <Text style={styles.noteText}>{note.text}</Text>
-        <TouchableOpacity onPress={ () => onDelete(note.$id) } >
-        <Text style={styles.delete}>❌</Text>
+      )}
+      <View style={styles.actions}>
+        {isEditing ? (
+          <TouchableOpacity
+            onPress={() => {
+              handleSave();
+              inputRef.current?.blur();
+            }}
+          >
+            <Text style={styles.edit}>💾</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity onPress={() => setIsEditing(true)}>
+            <Text style={styles.edit}>✏️</Text>
+          </TouchableOpacity>
+        )}
+
+        <TouchableOpacity onPress={() => onDelete(note.$id)}>
+          <Text style={styles.delete}>❌</Text>
         </TouchableOpacity>
-    </View>);
+      </View>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -25,6 +66,14 @@ const styles = StyleSheet.create({
     delete: {
         fontSize: 18,
         color: 'red',
+    },
+    actions: {
+     flexDirection: 'row',
+    },
+    edit: {
+     fontSize: 18,
+     marginRight: 10,
+     color: 'blue',
     },
 });
 
