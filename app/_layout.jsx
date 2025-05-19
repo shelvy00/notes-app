@@ -1,4 +1,5 @@
 import { Stack } from "expo-router";
+import { AuthProvider } from '@/contexts/AuthContext';
 
 const RootLayout = () => {
   return <Stack 
