@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
-import { router, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { useAuth } from "@/contexts/AuthContext";
 
 const AuthScreen = () => {
 
-   const {login, register } = useAuth();
+   const { login, register } = useAuth
    const router = useRouter(); 
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
@@ -27,9 +27,9 @@ const AuthScreen = () => {
         let response;
 
         if (isRegistering) {
-            response = await register(email,password);
+            response = await register(email, password);
         } else {
-            response = await login(email,password);
+            response = await login(email, password);
         }
 
         if (response?.error) {
@@ -76,7 +76,7 @@ const AuthScreen = () => {
              />
             )}
 
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={handleAuth}>
                 <Text style={styles.buttonText}>
                     {isRegistering ? "Sign Up" : "Login"}
                 </Text>
