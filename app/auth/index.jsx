@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from "react-native";
 import { useRouter } from "expo-router";
 import { useAuth } from "@/contexts/AuthContext";
 
 const AuthScreen = () => {
 
-   const { login, register } = useAuth
+   const { login, register  } = useAuth();
    const router = useRouter(); 
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
@@ -38,12 +38,12 @@ const AuthScreen = () => {
         }
 
         router.replace("/notes");
-    }
+    };
 
     return (
         <View style={styles.container}>
             <Text style={styles.header}>{isRegistering ? 'Sign Up' : 'Login'}</Text>
-            {error ? <Text style={styles.error}>{ erro }</Text> : null}
+            {error ? <Text style={styles.error}>{ error }</Text> : null}
             
             <TextInput
              style={styles.input}
