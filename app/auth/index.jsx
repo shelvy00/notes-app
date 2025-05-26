@@ -13,7 +13,7 @@ const AuthScreen = () => {
    const [isRegistering, setIsRegistering] = useState(false);
    const [error, setError] = useState(false);
    
-   const handleAuth = async() => {
+   const handleAuth = async () => {
         if (!email.trim() || !password.trim()) {
             setError("Email and password are required");
             return;
@@ -43,6 +43,7 @@ const AuthScreen = () => {
     return (
         <View style={styles.container}>
             <Text style={styles.header}>{isRegistering ? 'Sign Up' : 'Login'}</Text>
+
             {error ? <Text style={styles.error}>{ error }</Text> : null}
             
             <TextInput
@@ -54,6 +55,7 @@ const AuthScreen = () => {
              autoCapitalize='none'
              keyboardType='email-address'
             />
+
             <TextInput
              style={styles.input}
              placeholder='Password'

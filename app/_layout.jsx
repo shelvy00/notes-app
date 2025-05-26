@@ -3,41 +3,42 @@ import { AuthProvider, useAuth } from '@/contexts/AuthContext';
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
 
 const HeaderLogout = () => {
-  const { user, logout } = useAuth;
+  const { user, logout } = useAuth();
 
   return user ? (
-    <TouchableOpacity style={StyleSheet.logoutButton} onPress={logout}>
-      <Text style={StyleSheet.logoutText}>Logout</Text>
+    <TouchableOpacity style={styles.logoutButton} onPress={logout}>
+      <Text style={styles.logoutText}>Logout</Text>
     </TouchableOpacity>
   ) : null;
-} 
+};
 
 const RootLayout = () => {
   return (
-  <AuthProvider>
-   <Stack 
-  screenOptions={{
-    headerStyle:{
-      backgroundColor: '#ff8c00',
-    },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontSize: 20,
-      fontWeight: "bold",
-    },
-    headerRight: () => <HeaderLogout />,
-    contentStyle: {
-      paddingHorizontal: 10,
-      paddingTop: 10,
-      backgroundColor: '#fff',
-    },
-  }}>
-    <Stack.Screen name="index" options={{title: "Home"}} />
-    <Stack.Screen name="notes" options={{headerTitle: "Notes"}} />
-    <Stack.Screen name="auth" options={{headerTitle: "Login"}} />
-   </Stack>
-  </AuthProvider>
- );     
+    <AuthProvider>
+      <Stack
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: '#ff8c00',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontSize: 20,
+            fontWeight: 'bold',
+          },
+          headerRight: () => <HeaderLogout />,
+          contentStyle: {
+            paddingHorizontal: 10,
+            paddingTop: 10,
+            backgroundColor: '#fff',
+          },
+        }}
+      >
+        <Stack.Screen name='index' options={{ title: 'Home' }} />
+        <Stack.Screen name='notes' options={{ headerTitle: 'Notes' }} />
+        <Stack.Screen name='auth' options={{ headerTitle: 'Login' }} />
+      </Stack>
+    </AuthProvider>
+  );
 };
 
 const styles = StyleSheet.create({
